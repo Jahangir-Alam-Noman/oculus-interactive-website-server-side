@@ -18,6 +18,7 @@ async function run() {
         await client.connect();
         const database = client.db("product_sales");
         const productsCollection = database.collection("products");
+        const orderedProductCollection = database.collection("ordered_product");
 
 
         // get api for all products for home and explore page
@@ -43,6 +44,14 @@ async function run() {
             res.send(result);
         })
 
+        // post  api for place order
+        app.post('/products/:id', async (req, res) => {
+            const orderedProduct = req.body;
+            const result = await orderedProductCollection.insertOne(orderedProduct);
+            res.send(result);
+        })
+
+
 
 
 
@@ -56,7 +65,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Product sales!')
+    res.send('Product sales00000!')
 })
 
 app.listen(port, () => {
