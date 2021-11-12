@@ -22,7 +22,7 @@ async function run() {
         const usersCollection = database.collection("users");
 
 
-        // get api for all products for home and explore page
+        // get api for all products for home and explore
         app.get('/products', async (req, res) => {
             const cursor = productsCollection.find({});
             const result = await cursor.toArray();
@@ -46,7 +46,7 @@ async function run() {
             res.json(orders);
         })
 
-        // get api check admin or not by using email
+        // get api check admin or not by using email address
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
