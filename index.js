@@ -19,6 +19,7 @@ async function run() {
         const database = client.db("product_sales");
         const productsCollection = database.collection("products");
         const orderedProductCollection = database.collection("ordered_product");
+        const usersCollection = database.collection("users");
 
 
         // get api for all products for home and explore page
@@ -45,6 +46,35 @@ async function run() {
             res.json(orders);
         })
 
+        // get api check admin or not by using email
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const user = await usersCollection.findOne(query);
+            let isAdmin = false;
+            if (user?.role === 'admin') {
+                isAdmin = true;
+            }
+            res.json({ admin: isAdmin });
+        })
+
+        // get api for manage all ordered products
+        app.get('/manage', async (req, res) => {
+            const cursor = orderedProductCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // get api for manage products page
+        app.get('/manage/product', async (req, res) => {
+            const cursor = productsCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
+
+        /////////////////////////////////////////////////////////////////////////////////
 
 
         // post api for adding product
@@ -61,6 +91,15 @@ async function run() {
             res.send(result);
         })
 
+        // api for creating user
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            res.json(result);
+        })
+
+        /////////////////////////////////////////////////////////////////////////
+
         // api  for deleting my orders
         app.delete('/manage/orders/:id', async (req, res) => {
             const id = req.params.id;
@@ -69,8 +108,61 @@ async function run() {
             res.json(result);
         })
 
+        // delete api from manage all orders 
+        app.delete('/manage/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await orderedProductCollection.deleteOne(query);
+            res.json(result);
+        })
+
+        // get api for deleting  manage products 
+        app.delete('/manage/product/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await productsCollection.deleteOne(query);
+            res.json(result);
+        })
 
 
+
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+        // api for upsert with google Sign in
+        app.put('/users', async (req, res) => {
+            const user = req.body;
+            console.log('put', user);
+            const filter = { email: user.email };
+            const options = { upsert: true };
+            const updateDoc = { $set: user };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.json(result);
+
+        })
+
+        //  set role admin  in user in db
+        app.put('/users/admin', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const updateDoc = { $set: { role: 'admin' } };
+            const result = await usersCollection.updateOne(filter, updateDoc);
+            res.json(result);
+        })
+
+        //  api for  update status button of manage all orders
+        app.put('/manage/status/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    status: "Approved"
+                },
+            };
+            const result = await orderedProductCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
 
 
 
