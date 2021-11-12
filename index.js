@@ -36,6 +36,16 @@ async function run() {
             res.json(product);
         })
 
+        // get api  for single user ordered
+        app.get('/orders', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const cursor = orderedProductCollection.find(query);
+            const orders = await cursor.toArray();
+            res.json(orders);
+        })
+
+
 
         // post api for adding product
         app.post('/products', async (req, res) => {
@@ -51,6 +61,15 @@ async function run() {
             res.send(result);
         })
 
+        // api  for deleting my orders
+        app.delete('/manage/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await orderedProductCollection.deleteOne(query);
+            res.json(result);
+        })
+
+
 
 
 
@@ -65,7 +84,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Product sales00000!')
+    res.send('Sunglasses sales!')
 })
 
 app.listen(port, () => {
