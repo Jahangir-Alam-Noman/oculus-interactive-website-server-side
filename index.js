@@ -151,7 +151,7 @@ async function run() {
 
         })
 
-        //  set role admin  in user in database
+        //  set role admin 
         app.put('/users/admin', async (req, res) => {
             const user = req.body;
             const filter = { email: user.email };
