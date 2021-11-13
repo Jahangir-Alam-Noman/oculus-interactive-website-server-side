@@ -21,6 +21,8 @@ async function run() {
         const orderedProductCollection = database.collection("ordered_product");
         const usersCollection = database.collection("users");
 
+        const reviewsCollection = database.collection("reviews");
+
 
         // get api for all products for home and explore
         app.get('/products', async (req, res) => {
@@ -73,6 +75,14 @@ async function run() {
         })
 
 
+        // get api  for review
+        app.get('/reviews', async (req, res) => {
+            const cursor = reviewsCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
 
         /////////////////////////////////////////////////////////////////////////////////
 
@@ -97,6 +107,15 @@ async function run() {
             const result = await usersCollection.insertOne(user);
             res.json(result);
         })
+
+        // post api for adding reviews
+        app.post('/reviews', async (req, res) => {
+            const reviews = req.body;
+            const result = await reviewsCollection.insertOne(reviews);
+            res.send(result);
+        })
+
+
 
         /////////////////////////////////////////////////////////////////////////
 
