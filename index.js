@@ -169,7 +169,7 @@ async function run() {
             res.json(result);
         })
 
-        //  api for  update status button of manage all orders
+        //  api for  update status  of manage all orders
         app.put('/manage/status/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: ObjectId(id) };
