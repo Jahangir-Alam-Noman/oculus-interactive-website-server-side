@@ -84,9 +84,6 @@ async function run() {
 
 
 
-        /////////////////////////////////////////////////////////////////////////////////
-
-
         // post api for adding product
         app.post('/products', async (req, res) => {
             const product = req.body;
@@ -117,8 +114,6 @@ async function run() {
 
 
 
-        /////////////////////////////////////////////////////////////////////////
-
         // api  for deleting my orders
         app.delete('/manage/orders/:id', async (req, res) => {
             const id = req.params.id;
@@ -143,10 +138,6 @@ async function run() {
             res.json(result);
         })
 
-
-
-
-        ///////////////////////////////////////////////////////////////////////////////
 
         // api for upsert with google Sign in
         app.put('/users', async (req, res) => {
@@ -182,8 +173,6 @@ async function run() {
             const result = await orderedProductCollection.updateOne(filter, updateDoc, options);
             res.send(result);
         })
-
-
 
 
     } finally {
