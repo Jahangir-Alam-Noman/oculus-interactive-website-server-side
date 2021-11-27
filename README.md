@@ -18,9 +18,5 @@ Website link : https://product-sales-64a4b.web.app/
 
 ==>Admin will also see all users  ordered products and approved the status of ordered product
 
-Short description :
 
-Sunglass Lens Features ... Polarized lenses: Polarized lenses substantially reduce glare. 
-Polarization is a great feature if you enjoy water sports or are The lenses of polarized sunglasses
-reduce glare reflected at some angles off shiny non-metallic surfaces, such as water. They allow wearers to see into water .
 
