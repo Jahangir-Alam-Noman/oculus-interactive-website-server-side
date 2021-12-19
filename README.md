@@ -12,7 +12,7 @@ Website link : https://product-sales-64a4b.web.app/
 
 ==> Admin can create admin  and user but user  will not create any admin
 
-==> Admin will see all products and able to delete any  product
+==> Admin will see all products and will be able to delete any  product
 
 ==> Admin is able to add new product. 
 
